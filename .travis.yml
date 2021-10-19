@@ -2,35 +2,24 @@ language: node_js
 node_js:
 - "stable"
 env:
-global:
- - export NODE_ENV=test
+  - DOCKER_COMPOSE_VERSION=1.4.2
 dist: trusty
 branches:
   only:
     - master
 services:
     - docker
-script:
-    - docker build -t udagram-api-feed myactivdock/udagram-api-feed
-    - docker build -t udagram-api-user myactivdock/udagram-api-user
-    - docker build -t reverseproxy myactivdock/reverseproxy
-    - docker build -t udagram-frontend myactivdock/udagram-frontend
-# Tagging
-    - docker tag udagram-api-feed myactivdock/udagram-api-feed:v1
-# Do similar for other three images
-    - docker tag udagram-api-user myactivdock/udagram-api-user:v1
-    - docker tag reverseproxy myactivdock/reverseproxy:v1
-    - docker tag udagram-frontend myactivdock/udagram-frontend:v1
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+install: 
+  - docker-compose -f docker-compose-build.yml build --parallel 
 
-# Push
-# Assuming DOCKER_PASSWORD and DOCKER_USERNAME are set in the Travis repository settings
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    - docker push myactivdock/udagram-api-feed:v1
-# Do similar for other three images
-    - docker push myactivdock/udagram-api-user:v1
-    - docker push myactivdock/reverseproxy:v1
-    - docker push myactivdock/udagram-frontend:v1
-
-cache:
-  directories:
-    - "node_modules"
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push myactivdock/udagram-api-user:v2
+  - docker push myactivdock/udagram-api-feed:v2
+  - docker push myactivdock/reverseproxy:v2
+  - docker push myactivdock/udagram-frontend:v2
