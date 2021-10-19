@@ -1,5 +1,5 @@
 {
-  "name": "udagram-frontend",
+  "name": "y",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
@@ -26,9 +26,9 @@
     "@ionic/angular": "^4.1.0",
     "@ionic/cli": "^6.16.3",
     "core-js": "^2.5.4",
-    "fsevents": "^2.3.2",
     "rxjs": "~6.5.4",
-    "zone.js": "~0.9.1"
+    "zone.js": "~0.9.1",
+    "fsevents": "^2.3.2"
   },
   "devDependencies": {
     "@angular-devkit/architect": "~0.12.3",
@@ -58,5 +58,10 @@
     "tslint": "~5.12.0",
     "typescript": "^3.5.3"
   },
-  "description": "An Ionic project"
+  "optionalDependencies": {
+    "fsevents": "^2.3.2"
+  },
+  "description": "An Ionic project",
+  "main": "index.js",
+  "license": "ISC"
 }
