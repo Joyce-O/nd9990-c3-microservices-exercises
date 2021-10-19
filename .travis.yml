@@ -1,5 +1,10 @@
 language: node_js
-node_js: 8
+node_js:
+- "stable"
+env:
+global:
+ - export NODE_ENV=test
+dist: trusty
 branches:
   only:
     - master
