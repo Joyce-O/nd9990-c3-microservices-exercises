@@ -17,6 +17,12 @@ install:
     - docker-compose -f docker-compose-build.yml build --parallel 
 
 after_success:
+# Tagging
+  - docker tag udagram-api-feed myactivdock/udagram-api-feed:v2
+  - docker tag udagram-api-feed myactivdock/udagram-api-user:v2
+  - docker tag udagram-api-feed myactivdock/reverseproxy:v2
+  - docker tag udagram-api-feed myactivdock/udagram-frontend:v2
+
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push myactivdock/udagram-api-user:v2
   - docker push myactivdock/udagram-api-feed:v2
